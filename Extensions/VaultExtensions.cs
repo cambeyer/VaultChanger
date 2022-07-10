@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
@@ -16,10 +17,14 @@ public static class VaultExtensions
     private const string PathSeparator = "~~~";
     private const string VaultNamespaceHeaderKey = "X-Vault-Namespace";
 
-    private static readonly Regex NamespaceExtractor = new($"{PathSeparator}(.+?){PathSeparator}", RegexOptions.Compiled);
+    private static readonly Regex NamespaceExtractor =
+        new($"{PathSeparator}(.+?){PathSeparator}", RegexOptions.Compiled);
 
-    public static string GeneratePath(string vaultNamespace, string path) =>
-        $"{PathSeparator}{WebUtility.UrlDecode(vaultNamespace)}{PathSeparator}{WebUtility.UrlDecode(path).Trim('/')}";
+    public static string GeneratePath(string vaultNamespace, string path)
+    {
+        return
+            $"{PathSeparator}{WebUtility.UrlDecode(vaultNamespace)}{PathSeparator}{WebUtility.UrlDecode(path).Trim('/')}";
+    }
 
     public static List<TSource> Flatten<TSource>(
         this IList<TSource> source,
@@ -36,9 +41,7 @@ public static class VaultExtensions
         var result = new List<string>();
         result.AddRange(resultSelector(source));
         foreach (var nextSource in nextSelector(source))
-        {
             result.AddRange(nextSource.Flatten(resultSelector, nextSelector));
-        }
 
         return result;
     }
@@ -46,7 +49,7 @@ public static class VaultExtensions
     public static void AddVaultClient(this IServiceCollection services, VaultConfig config)
     {
         var client = new VaultClient(
-            new VaultClientSettings(config.Url, new TokenAuthMethodInfo(System.IO.File.ReadAllText(config.TokenPath)))
+            new VaultClientSettings(config.Url, new TokenAuthMethodInfo(File.ReadAllText(config.TokenPath)))
             {
                 SecretsEngineMountPoints = new SecretsEngineMountPoints
                 {
@@ -66,7 +69,7 @@ public static class VaultExtensions
                 }
             }
         );
-        
+
         client.V1.Auth.PerformImmediateLogin().Wait();
         services.AddSingleton<IVaultClient>(client);
     }

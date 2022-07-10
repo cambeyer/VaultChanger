@@ -1,19 +1,17 @@
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using VaultChanger.Models;
 
-namespace VaultChanger.Repositories
+namespace VaultChanger.Repositories;
+
+public interface IVaultRepository
 {
-    public interface IVaultRepository
-    {
-        Task<Folder> QueryFolder(string vaultNamespace, string mount, string path = "/");
-        
-        Task WriteSecretInPath(string vaultNamespace, string mount, string path, string key, SecretValue secretValue);
-        
-        Task DeleteSecretInPath(string vaultNamespace, string mount, string path, string key);
+    Task<Folder> QueryFolder(string vaultNamespace, string mount, string path = "/");
 
-        Task<string> EncryptSecret(SecretValue value);
+    Task WriteSecretInPath(string vaultNamespace, string mount, string path, string key, SecretValue secretValue);
 
-        Task<SecretValue> DecryptSecret(string cipherText);
-    }
+    Task DeleteSecretInPath(string vaultNamespace, string mount, string path, string key);
+
+    Task<string> EncryptSecret(SecretValue value);
+
+    Task<SecretValue> DecryptSecret(string cipherText);
 }

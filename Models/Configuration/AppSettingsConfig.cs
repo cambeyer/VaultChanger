@@ -1,7 +1,6 @@
-namespace VaultChanger.Models.Configuration
+namespace VaultChanger.Models.Configuration;
+
+public class AppSettingsConfig
 {
-    public class AppSettingsConfig
-    {
-        public VaultConfig Vault { get; set; }
-    }
+    public VaultConfig Vault { get; set; }
 }

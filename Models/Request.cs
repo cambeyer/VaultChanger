@@ -1,27 +1,26 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
-namespace VaultChanger.Models
+namespace VaultChanger.Models;
+
+public enum RequestType
 {
-    public enum RequestType
-    {
-        Upsert,
-        Delete
-    }
+    Upsert,
+    Delete
+}
 
-    public class Request
-    {
-        public string VaultNamespace { get; set; }
-        
-        public string MountPoint { get; set; }
-        
-        public string Path { get; set; }
-        
-        public string Key { get; set; }
-        
-        public string Value { get; set; }
+public class Request
+{
+    public string VaultNamespace { get; set; }
 
-        [JsonConverter(typeof(StringEnumConverter))]
-        public RequestType Type { get; set; }
-    }
+    public string MountPoint { get; set; }
+
+    public string Path { get; set; }
+
+    public string Key { get; set; }
+
+    public string Value { get; set; }
+
+    [JsonConverter(typeof(StringEnumConverter))]
+    public RequestType Type { get; set; }
 }

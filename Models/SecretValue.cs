@@ -1,9 +1,8 @@
 using Newtonsoft.Json.Linq;
 
-namespace VaultChanger.Models
+namespace VaultChanger.Models;
+
+public class SecretValue
 {
-    public class SecretValue
-    {
-        public JValue Value { get; set; }
-    }
+    public JValue Value { get; set; }
 }
