@@ -1,0 +1,40 @@
+version: '2'
+volumes:
+  db:
+services:
+  vault:
+    image: vault
+    container_name: vault
+    ports:
+      - "8200:8200"
+    restart: always
+    volumes:
+      - ./volumes/logs:/vault/logs
+      - ./volumes/file:/vault/file
+      - ./volumes/config:/vault/config
+    cap_add:
+      - IPC_LOCK
+    entrypoint: vault server -config=/vault/config/vault.json
+  db:
+    image: "mcr.microsoft.com/azure-sql-edge:latest"
+    container_name: db
+    ports:
+      - "1433:1433"
+    restart: always
+    volumes:
+      - db:/var/opt/mssql
+    cap_add:
+      - SYS_PTRACE
+    environment:
+      MSSQL_SA_PASSWORD: "Your_password123"
+      ACCEPT_EULA: "1"
+  web:
+    build: .
+    container_name: vault-changer
+    ports:
+      - "8000:80"
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+    depends_on:
+      - db
+      - vault
