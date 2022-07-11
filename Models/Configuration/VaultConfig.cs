@@ -2,7 +2,7 @@ namespace VaultChanger.Models.Configuration;
 
 public class VaultConfig
 {
-    public static string Vault = "Vault";
+    public const string Vault = "Vault";
 
     public string Url { get; set; }
 

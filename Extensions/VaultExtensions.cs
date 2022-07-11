@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
 using Microsoft.Extensions.DependencyInjection;
@@ -24,15 +23,6 @@ public static class VaultExtensions
     {
         return
             $"{PathSeparator}{WebUtility.UrlDecode(vaultNamespace)}{PathSeparator}{WebUtility.UrlDecode(path).Trim('/')}";
-    }
-
-    public static List<TSource> Flatten<TSource>(
-        this IList<TSource> source,
-        Func<TSource, IList<TSource>> getChildrenFunction)
-    {
-        return source.Aggregate(source,
-            (current, element) =>
-                current.Concat(getChildrenFunction(element).Flatten(getChildrenFunction)).ToList()).ToList();
     }
 
     public static IEnumerable<string> Flatten<TSource>(this TSource source,

@@ -1,4 +1,4 @@
-using System;
+using System.Data;
 using System.Threading.Tasks;
 using VaultChanger.Data;
 using VaultChanger.Models;
@@ -67,7 +67,7 @@ public class RequestsRepository : IRequestsRepository
                 await _vaultRepository.DeleteSecretInPath(vaultNamespace, mount, path, key);
                 break;
             default:
-                throw new ArgumentOutOfRangeException();
+                throw new ConstraintException("enum value provided is not supported");
         }
 
         _vaultContext.Requests.Remove(request);

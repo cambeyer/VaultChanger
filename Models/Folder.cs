@@ -4,9 +4,9 @@ namespace VaultChanger.Models;
 
 public class Folder
 {
-    public string Path { get; set; }
+    public string Path { get; init; }
 
-    public List<Folder> Children { get; set; }
+    public List<Folder> Children { get; init; }
 
-    public List<Secret> Secrets { get; set; }
+    public List<Secret> Secrets { get; init; }
 }

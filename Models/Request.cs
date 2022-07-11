@@ -11,16 +11,16 @@ public enum RequestType
 
 public class Request
 {
-    public string VaultNamespace { get; set; }
+    public string VaultNamespace { get; init; }
 
-    public string MountPoint { get; set; }
+    public string MountPoint { get; init; }
 
-    public string Path { get; set; }
+    public string Path { get; init; }
 
-    public string Key { get; set; }
+    public string Key { get; init; }
 
-    public string Value { get; set; }
+    public string Value { get; init; }
 
     [JsonConverter(typeof(StringEnumConverter))]
-    public RequestType Type { get; set; }
+    public RequestType Type { get; init; }
 }
